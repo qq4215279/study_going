@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./node_modules/vue/dist/vue.js"></script>
+</head>
+<body>
+
+    <div id="ap">
+        <counter></counter>
+        <counter2></counter2>
+        <counter3 words="呵呵呵，学会了"></counter3>
+
+        <h2>num:{{num}}</h2>
+        <counter4 :counts="num" @ins="increment" @dec="decrement" ></counter4>
+
+    </div>
+
+
+    <script>
+
+        //使用全局组件
+        Vue.component("counter",{
+            template:'<input type="button" v-on:click="num++" v-model="num" value="{{num}}点我++"/>',
+            data(){
+                return{
+                    num:0
+                }
+            }
+
+        })
+
+        //使用局部组件
+        const counter2 = {
+            template:'<button v-on:click="count++" value="点我++">点了我{{count}}次，</button>',
+            data(){
+                return{
+                    count:0
+                }
+            }
+        }
+
+        //父向子的通信
+        const counter3 = {
+            template:'<h3>{{words}}</h3>',
+            props:['words'],
+        }
+
+        //子向父的通信
+        const counter4 = {
+            template:' <div> <button @click="add">点我++</button> <button @click="sub">点我--</button> </div>',
+            props: ['counts'],
+            methods:{
+                add(){
+                    this.$emit("ins");
+                },
+                sub(){
+                    this.$emit("dec");
+                }
+            }
+
+        }
+
+
+        //Vue实例
+        var ap = new Vue({
+            el:"#ap",
+            components:{
+                counter2:counter2,
+               counter3,
+                counter4:counter4
+            },
+            data:{
+              num: 0
+            },
+            methods:{
+                increment(){
+                    this.num++;
+                },
+                decrement(){
+                  this.num--;
+                }
+            }
+
+        });
+
+    </script>
+
+    ===================================================================================================<br>
+
+    <div id="app">
+        <!--使用定义好的全局组件-->
+        <counter></counter>
+    </div>
+
+    <script type="text/javascript">
+        // 定义全局组件，两个参数：1，组件名称。2，组件参数
+        Vue.component("counter",{
+            template:'<button v-on:click="count++">你点了我 {{ count }} 次，我记住了.</button>',
+            data(){
+                return {
+                    count:0
+                }
+            }
+        })
+        var app = new Vue({
+            el:"#app"
+        })
+    </script>
+
+
+</body>
+</html>

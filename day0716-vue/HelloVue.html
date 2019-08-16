@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue</title>
+    <script src="./node_modules/vue/dist/vue.js"></script>
+</head>
+<body>
+
+<div id="ap">
+    <input type="text" v-model="word">
+    <hr>
+    <scan>我今年{{birth}}岁了</scan>
+    <hr>
+    <div :style="[color,width,height]" >我被改变样式了</div>
+
+    <hr>
+    <input type="button" @click="n= Math.random()*100 " value="点我生成分数">{{n}}
+    <h3 v-if="n > 80">80分以上啦，你真优秀</h3>
+    <h3 v-else-if="n > 60">你及格啦</h3>
+    <h3 v-else>得加油啦</h3>
+
+    <hr>
+    <input type="button" @click="show=!show" value="你敢点我试试？">
+    <h2 v-if="show">点我就出来啦</h2>
+    <hr>
+    <input type="text" v-model="num">
+    <input type="button" v-on:click="decrease" value="点我--">
+    <input type="button" v-on:click="num++" value="点我++">
+    <input type="button" @contextmenu.prevent="num++" value="右键++">
+    <input type="button" @keyup.enter="num++" value="回车++">
+    <h2>{{name}},打到了{{num}}只小怪兽</h2>
+    v-text:<h2 v-text="hello"></h2>
+    v-html:<h2 v-html="hello"></h2>
+
+    爱好：<input type="checkbox" value="打篮球" v-model="hobby">打篮球
+         <input type="checkbox" value="敲代码" v-model="hobby">敲代码
+         <input type="checkbox" value="泡妞" v-model="hobby">泡妞
+    <!-- .join(',')可以把[]和,去掉。记住！！！ -->
+    <h3 style="color: red">爱好有：{{hobby.join(',')}}</h3>
+    <h3 style="color: red">爱好有：{{hobby}}</h3>
+
+    <ul>
+        <li v-for="(user,index) in users":key="index" style="color: green">
+            {{index+1}}=={{user.name}}=={{user.gender}}=={{user.gender}}
+        </li>
+    </ul>
+
+
+</div>
+
+    <script>    //script标签要在下面才能生效？什么鬼？什么原理？？
+        var ap = new Vue({
+            el:"#ap",
+            data:{
+                name:"奥特曼",
+                num:2000,
+                hello:"差值闪烁时候代替{{}}里的值",
+                hobby:[],
+                users:[{"name":"迪丽热巴","age":25,"gender":'femail'},
+                        {"name":"古力娜咋","age":24,"gender":'mail'},
+                        {"name":"佟丽娅","age":30,"gender":'femail'}],
+                show:true,
+                n:0,
+                color:{'border':'5px'},
+                height:{'height':'100px'},
+                width:{'width':'400px'},
+                birthday:1429032123201, // 毫秒值
+                word:""
+
+            },
+            methods:{
+                decrease:function () {
+                    this.num--;
+                }
+            },
+            computed:{
+                birth(){// 计算属性本质是一个方法，但是必须返回结果
+                    const d = new Date(this.birthday);
+                    return d.getFullYear() + "-" + d.getMonth() + "-" + d.getDay();
+                }
+            },
+            watch:{
+                word(newW,oldW){
+                    console.log(newW,oldW)
+                }
+            },
+
+            created: function () {  //钩子函数优先级比data的高
+                this.num = 1000;
+            }
+
+        });
+
+
+
+    </script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
