@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration xmlns="http://ch.qos.logback/xml/ns/logback"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://ch.qos.logback/xml/ns/logback
+               https://raw.githubusercontent.com/enricopulatzo/logback-XSD/master/src/main/xsd/logback.xsd"
+               scan="true" scanPeriod="60 seconds" debug="true">
+
+    <!-- D:\Code\IdeaWorkSpace\study_going\logback_tesk\src\main\resources\logs -->
+    <property name="common-log" value="D:\Code\IdeaWorkSpace\study_going\logback_tesk\src\main\resources\logs\common" />
+    <property name="error-log" value="D:\Code\IdeaWorkSpace\study_going\logback_tesk\src\main\resources\logs\error" />
+
+    <!-- 附加器Appender -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss}--%highlight(%-5level)--[%10.10(%thread)]--%cyan(%(%logger{40}):%line): %40.40m%n
+            </pattern>
+            <!-- 1.1.3. 输出编码 UTF-8 -->
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- 3. 滚动文件附加器,在该文件中需要设置文件路径以及滚动策略,常用滚动策略有两种,在下面有解释 -->
+    <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder>
+            <pattern>
+                %22d{yyyy-MM-dd HH:mm:ss}--%highlight(%-5level)--[%15.15(%thread)]--%cyan(%-40.40(%logger{40}):%line) : %msg%n
+            </pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <!-- 3.2. 日志输出的路径 -->
+<!--        <file>D:\Code\IdeaWorkSpace\study_going\logback_tesk\src\main\resources\logs\error\error.log</file>-->
+<!--        <file>${error-log}\error.log</file>-->
+        <!-- 3.3. 日志追加。即 true 表示在以前的日志后追加日志，false 表示覆盖掉以前的日志,一般用true -->
+        <append>true</append>
+
+
+        <!-- 3.4. 日志滚动策略。class: 滚动策略,两种,
+                1. 基于时间的策略 ch.qos.logback.core.rolling.TimeBasedRollingPolicy , 如每天或者每小时生成一个日志文件
+                2. 基于文件大小和时间的策略 ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy , 该策略既根据文件大小, 也根据时间
+         -->
+        <!-- 3.4.1. 示例1. 基于时间的策略 ch.qos.logback.core.rolling.TimeBasedRollingPolicy -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 3.4.1.1. 文件名生成模式,如按日期中的每天来生成日志文件,填入 %d{yyyy-MM-dd}.log ,如按秒 %d{yyyy-MM-dd HH-mm-ss} ,如按年创建目录,文件放在年份下 %d{yyyy/MM-dd}
+                其于<file>区别在于,当前也就是今天的日志记录会记录在<file>的D:/log2/logfile.log文件中, 今天过去,则会将logfile.log文件名修改为<fileNamePattern>设置的文件名
+            -->
+<!--            <fileNamePattern>${error-log}_%d{yyyy-MM-dd}.log</fileNamePattern>-->
+            <fileNamePattern>D:\Code\IdeaWorkSpace\study_going\logback_tesk\src\main\resources\logs\error\error_%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!--3.4.1.2. 历史日志数量,如3则表示,保存最近3个的日志文件,3个以前的删除-->
+            <maxHistory>3</maxHistory>
+            <!--3.4.1.3. 该策略下所有的日志文件总大小,如5GB示,总大小不超过5GB,超过则把以前的删除-->
+            <totalSizeCap>5GB</totalSizeCap>
+        </rollingPolicy>
+
+        <!-- 3.4.2. 示例2. 基于文件大小和时间的策略,与基于时间策略相比,其多一个属性 <maxFileSize>,
+        并且 <fileNamePattern> 属性需要设置下标,如 %i ,表示当天文件超过大小,新建一个今天的日志文件1(从0开始)继续写入日志 -->
+        <!--
+             <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+                 <fileNamePattern>rollSizeTime_%d{yyyy-MM-dd}%i.log</fileNamePattern>
+                 <maxHistory>3</maxHistory>
+                 <totalSizeCap>5GB</totalSizeCap>
+                 3.4.2.4. 单个日志文件最大大小
+                 <maxFileSize>50MB</maxFileSize>
+             </rollingPolicy>
+        -->
+    </appender>
+
+
+
+    <!-- 自定义附加器Appender -->
+    <appender name="myAppender" class="com.mumu.logback.MyAppender">
+        <encoder>
+            <pattern>%date %msg%n</pattern>
+        </encoder>
+        <filename></filename>
+        <filter class="com.mumu.logback.MyFilter">
+            <keyword>successful</keyword>
+        </filter>
+    </appender>
+
+    <!-- com.mumu 记录器。是 com 的子记录器 -->
+    <logger name="com.mumu.error" level="INFO" additivity="false">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="error"/>
+    </logger>
+
+    <!-- com 记录器。是 root 的子记录器
+        注：因为 "com" 是 "com.mumu.logback.Demo1" 的父记录器，如果 additivity="false"，且没有别的子记录器了，且没有 ref="STDOUT" ；则不会打印日志！
+        如果 additivity="true"，且 root记录器 ref="STDOUT"，这种方式也可以打印！
+     -->
+    <logger name="com" level="info" additivity="true">
+<!--        <appender-ref ref="STDOUT"/>-->
+    </logger>
+
+    <!-- 根记录器 -->
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+
+</configuration>

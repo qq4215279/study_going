@@ -14,14 +14,16 @@ public class Demo3 {
 
     public static void main(String[] args) {
         // 通过设置日志级别，需要将记录器对象转成如下这个包下的 Logger
+        // 在logback中配置 <logger name="com" level="DEBUG"></logger>  等价于如下
         ch.qos.logback.classic.Logger logger = (ch.qos.logback.classic.Logger)LoggerFactory.getLogger( "com");
-
         // 如果将日志级别设置成 info，则只能打印info 及以上级别的日志
-        // logger.setLevel(Level.INFO);
+        // logger.setLevel(Level.DEBUG);
+
         // 默认根记录器是 debug
         System.out.println(logger.getEffectiveLevel()); // debug
 
         // 设置根记录器
+        // 在logback中配置 <root level="INFO"></root>  等价于如下
         ch.qos.logback.classic.Logger rootLogger = (ch.qos.logback.classic.Logger)LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
         rootLogger.setLevel(Level.INFO);
 

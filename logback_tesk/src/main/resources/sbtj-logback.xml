@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- For assistance related to logback-translator or configuration  -->
+<!-- files in general, please contact the logback user mailing list -->
+<!-- at http://www.qos.ch/mailman/listinfo/logback-user             -->
+<!--                                                                -->
+<!-- For professional support please see                            -->
+<!--    http://www.qos.ch/shop/products/professionalSupport         -->
+<!--                                                                -->
+<configuration scan="true" scanPeriod="30 seconds" debug="false">
+  <property name="common-log" value="${start.home}/logs/game/common/comm" />
+  <property name="error-log" value="${start.home}/logs/game/error/error" />
+  <property name="dayreport-log" value="${start.home}/logs/game/dayreport/dayreport" />
+  <property name="rtreport-log" value="${start.home}/logs/game/rtreport/rtreport" />
+  <property name="asynchronousDBOperation-log" value="${start.home}/logs/game/asynchronousDBOperation/asynchronousDBOperation" />
+  <property name="yxopreport-log" value="${start.home}/logs/game/yxopreport/yxopreport" />
+
+  <!-- asynchronousDBOperation -->
+  <appender name="asynchronousDBOperation" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <Append>true</Append>
+    <encoder>
+      <pattern>%d{ISO8601}#%m%n</pattern>
+      <charset>UTF-8</charset>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <FileNamePattern>${asynchronousDBOperation-log}_%d{yyyy-MM-dd}.log</FileNamePattern>
+    </rollingPolicy>
+  </appender>
+
+  <!-- dayreport -->
+  <appender name="dayreport" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <Append>true</Append>
+    <encoder>
+      <pattern>%d{ISO8601}#%m%n</pattern>
+      <charset>UTF-8</charset>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <FileNamePattern>${dayreport-log}_%d{yyyy-MM-dd}.log</FileNamePattern>
+    </rollingPolicy>
+  </appender>
+
+
+  <!-- rtreport -->
+  <appender name="rtreport" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <Append>true</Append>
+    <encoder>
+      <pattern>%d{ISO8601}#%m%n</pattern>
+      <charset>UTF-8</charset>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <FileNamePattern>${rtreport-log}_%d{yyyy-MM-dd}.log</FileNamePattern>
+    </rollingPolicy>
+  </appender>
+
+  <!-- opreport -->
+  <appender name="opreport" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <Append>true</Append>
+    <encoder>
+      <pattern>%d{ISO8601}#%m%n</pattern>
+      <charset>UTF-8</charset>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <FileNamePattern>${yxopreport-log}_%d{yyyy-MM-dd}.log</FileNamePattern>
+    </rollingPolicy>
+  </appender>
+
+  <!-- error -->
+  <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <Append>true</Append>
+    <encoder>
+      <pattern>%d{ISO8601}#%m%n</pattern>
+      <charset>UTF-8</charset>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <FileNamePattern>${error-log}_%d{yyyy-MM-dd}.log</FileNamePattern>
+    </rollingPolicy>
+  </appender>
+
+  <appender name="R" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <!--See also http://logback.qos.ch/manual/appenders.html#RollingFileAppender-->
+    <Append>true</Append>
+    <File>${common-log}</File>
+    <encoder>
+      <pattern>[Reign]%d{ISO8601} [%c]-[%p] %m%n</pattern>
+      <charset>UTF-8</charset>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+      <maxIndex>20</maxIndex>
+      <FileNamePattern>${common-log}.%i</FileNamePattern>
+    </rollingPolicy>
+    <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+      <MaxFileSize>50MB</MaxFileSize>
+    </triggeringPolicy>
+  </appender>
+
+  <appender name="ASYNC_R" class="ch.qos.logback.classic.AsyncAppender">
+    <discardingThreshold>0</discardingThreshold>
+    <queueSize>512</queueSize>
+    <appender-ref ref="A1"/>
+  </appender>
+
+  <appender name="A1" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>[Reign]%d{ISO8601} [%c]-[%p] %m%n</pattern>
+      <charset>UTF-8</charset>
+    </encoder>
+  </appender>
+
+  <logger name="com.reign.async" additivity="false" level="INFO">
+    <appender-ref ref="asynchronousDBOperation"/>
+  </logger>
+
+  <!--
+ <logger name="com.reign.asynchronousDBOperation" additivity="false" level="INFO">
+   <appender-ref ref="asynchronousDBOperation"/>
+ </logger>
+ <logger name="com.reign.async" additivity="false" level="INFO">
+   <appender-ref ref="asynchronousDBOperation"/>
+ </logger>
+ <logger name="com.reign.interface" additivity="false" level="INFO">
+   <appender-ref ref="dayreport"/>
+ </logger>
+ <logger name="com.reign.rtreport" additivity="false" level="INFO">
+   <appender-ref ref="rtreport"/>
+ </logger>
+ <logger name="com.reign.gcld.opreport" additivity="false" level="INFO">
+   <appender-ref ref="opreport"/>
+ </logger>
+ <logger name="com.reign.dayreport" additivity="false" level="INFO">
+   <appender-ref ref="dayreport"/>
+ </logger>
+ <logger name="com.reign.error" additivity="false" level="WARN">
+   <appender-ref ref="error"/>
+ </logger>
+  -->
+  <logger name="com.reign.timer" additivity="false" level="INFO">
+    <appender-ref ref="R"/>
+  </logger>
+  <logger name="com.reign.crontab" additivity="false" level="INFO">
+    <appender-ref ref="R"/>
+  </logger>
+
+  <root level="INFO">
+    <appender-ref ref="R"/>
+    <appender-ref ref="A1"/>
+  </root>
+</configuration>

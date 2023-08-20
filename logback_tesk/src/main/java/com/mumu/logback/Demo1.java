@@ -23,10 +23,16 @@ public class Demo1 {
      *                  记录器(com.mumu.logback)
      *                       /                \
      * 记录器(com.mumu.logback.Demo1)      记录器(com.mumu.logback.Demo2)
+     *
+     * 子记录器创建的时候，会把所有的父记录器都创建出来
      */
 
+    private static final Logger errorLog = LoggerFactory.getLogger("com.mumu.error");
 
+    // D:\Code\IdeaWorkSpace\study_going\logback_tesk\src\main\resources\logs
     private static final Logger log = LoggerFactory.getLogger("com.mumu.logback.Demo1");
+    // 等价
+    // private static final Logger log = LoggerFactory.getLogger(Demo1.class);
     /** log2 是 log的父记录器 */
     private static final Logger log2 = LoggerFactory.getLogger("com.mumu.logback");
     /** log3 是 log2 的父记录器  */
@@ -35,7 +41,9 @@ public class Demo1 {
     private static final Logger log4 = LoggerFactory.getLogger("com");
 
     public static void main( String[] args)  {
-        log.error("Hello world!");
+        log.info("Hello world!");
+
+        errorLog.error("Bad world!");
     }
 
 }

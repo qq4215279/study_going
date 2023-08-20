@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!--  -->
+<!--
+此处可以写入命名空间，自动提示，将下面的粘贴后，将鼠标放在raw.githubusercont这个网址上，点击alt+enter,选择fetch导入即可拥有自动提示
+根节点<configuration>,包含下面三个属性：
+    scan: 当此属性设置为true时，配置文件如果发生改变，将会被重新加载，默认值为true。
+    scanPeriod: 设置监测配置文件是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒。当scan为true时，此属性生效。默认的时间间隔为1分钟。
+    debug: 当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。
+注：配置文件中级别不区分大小写 -->
+<configuration xmlns="http://ch.qos.logback/xml/ns/logback"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://ch.qos.logback/xml/ns/logback
+               https://raw.githubusercontent.com/enricopulatzo/logback-XSD/master/src/main/xsd/logback.xsd"
+               scan="true" scanPeriod="60 seconds" debug="false">
+
+    <!-- 6. 子节点<property> 用来定义变量值，它有两个属性name和value，通过<property>定义的值会被插入到logger上下文中，可以使“${}”来使用变量。
+                name: 变量的名称
+                value: 的值时变量定义的值 -->
+    <property name="APP_Name" value="myAppName" />
+
+    <!-- 7. 子节点<contextName> 用来设置上下文名称: 每个logger都关联到logger上下文，默认上下文名称为default。
+       但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。 -->
+    <!-- <contextName>myAppName</contextName> -->
+    <contextName>${APP_Name}</contextName>
+
+    <!-- 8. 子节点<timestamp> 获取时间戳字符串，他有两个属性 key 和 datePattern
+                key: 标识此<timestamp> 的名字；
+                datePattern: 设置将当前时间（解析配置文件的时间）转换为字符串的模式，遵循java.txt.SimpleDateFormat的格式。-->
+    <timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss"/>
+    <contextName>${bySecond}</contextName>
+
+
+    <!-- 附加器，是负责写日志的组件,主要负责将日志写入文件或者控制台，
+            name 表示appender名字，自己随意设置，后面的记录器将配置通过name来选择附加器
+            class 表示附加器的实现类(appender的全限定名)，logback自带有三个，根据需求自行选择使用，
+                第一个: ch.qos.logback.core.ConsoleAppender 将日志输出到控制台，
+                第二个: ch.qos.logback.core.FileAppender 将日志输出到文件
+                第三个滚动文件附加器: ch.qos.logback.core.rolling.RollingFileAppender
+            下面示例了三种附加器 -->
+    <!-- 1. 控制台附加器 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- 1.1. <encoder> 对日志进行格式化。 -->
+        <encoder>
+            <!-- 1.1.1. 默认情况下，每个日志事件都会立即刷新到基础输出流。这种默认方法更安全，因为如果应用程序在没有正确关闭appender的情况下退出，则日志事件不会丢失。
+                    但为了显着增加日志记录吞吐量，可以将 immediateFlush 属性设置为false -->
+            <!-- <immediateFlush>true</immediateFlush> -->
+
+            <!-- 1.1.2. 日志模板，即输出的日志格式
+                 %d{..} 或 %date() 表示日期，自动填写，%d{yyyy-MM-dd HH:mm:ss} 表示时间的格式，我们可以修改格式如 %d{yyyy-MM-dd HH:mm} 记录到分种，或者直接用 %dat 即可，与其效果一致
+                            对于 %d 我们也可以规定其长度，如 %30{date} 表示长30个字符，不够的左侧空格补齐，在 %-30{date} 加负号表示右侧补齐，这种加数字长度可以适用于所有
+                            %date  =>  2006-10-20 14:06:49,812
+                            %date{ISO8601} 或 %d{yyyy-MM-dd HH:mm:ss.SSS} =>  2006-10-20 14:06:49,812
+                            %date{HH:mm:ss.SSS}  =>  14:06:49.812
+                            %date{dd MMM yyyy;HH:mm:ss.SSS}  =>  20 oct. 2006;14:06:49.812
+                 %level 表示日志级别
+                 %line 表示打印日志语句在哪一行
+                 %class 或 %C 表示打印日志的语句在哪个类中
+                 %method 或 %M	方法名称
+                 %thread 或 %t 表示打印日志的语句所在线程的名字
+                 %15.15() 括号内填内容，如 %15.15(%thread) 则表示线程名字符长度小于15(第一个)则用空格在左侧补齐,如果字符长度大于15(第二个),则从开头开始截断多余的字符
+                 %msg 或 %message 或 %m 打印日志消息，即为我们代码中填写的消息，如 log.info("ccc"),则 %msg 会打印 ccc
+                 %file 或 %F 输出文件名
+                 %highlight() 转换说明符,括号内填内容,如 %highlight(%level) 以粗体红色显示其级别为ERROR的事件，红色为WARN，BLUE为INFO，以及其他级别的默认颜色
+                 %logger{40} 或 %c  日志的名称，通常是全类名
+                 %red() 红色显示,括号填内容,如 %red(%date{yyyy-MM-dd HH:mm:ss}) 表示红色显示日期, red可变,如 %blue()
+                 %n 换行符,一般用于最后，下一条日志换行打印
+
+                 hostName  本地计算机名称
+                 hostAddress 本地IP地址
+                 %p 日志输出格式
+                 %L 输出错误行号
+                 %l	输出语句所在行数
+             -->
+            <pattern>
+                %22d{yyyy-MM-dd HH:mm:ss}--%highlight(%-5level)--[%15.15(%thread)]--%cyan(%-40.40(%logger{40}):%line) : %msg%n
+            </pattern>
+            <!-- 1.1.3. 输出编码 UTF-8 -->
+            <charset>UTF-8</charset>
+        </encoder>
+
+        <!-- 1.2. 过滤器 -->
+        <!-- 1.2.1. 过滤器1：单一级别过滤，可以只记录符合级别的日志。 ch.qos.logback.classic.filter.LevelFilter
+                    LevelFilter 根据精确的级别匹配过滤事件。如果事件的级别等于配置的级别，则筛选器接受或拒绝该事件，具体取决于 onMatch 和 onMismatch 属性的配置。
+            如下，只记录info级别的, -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <!-- 1.2.1.1. 指定日志级别 -->
+            <level>info</level>
+            <!-- 1.2.1.2. 匹配当前指定日志级别时的操作。操作类型有：DENY 拒绝，不执行记录；ACCEPT 接受，进行记录 -->
+            <onMatch>ACCEPT</onMatch>
+            <!-- 1.2.1.3. 不匹配当前指定日志级别时的操作 -->
+            <onMismatch>DENY</onMismatch>
+        </filter>
+
+        <!-- 1.2.2. 过滤器2：范围过滤，过滤范围 >= 当前指定日志级别 ch.qos.logback.classic.filter.ThresholdFilter
+            写法如下示例，表示比info级别高的均可输出，当不写过滤器时，默认采用此配置，级别与记录器一致 -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>info</level>
+        </filter>
+    </appender>
+
+
+    <!-- 2. 文件附加器。在该附加器需要指定日志输出的文件路径,可以是绝对路径,也可以只指定文件名,默认放在项目路径下 -->
+    <appender name="LOGIN_USER_FEATURE_FILE" class="ch.qos.logback.core.FileAppender">
+        <encoder>
+            <!-- 日志模板，即输出的日志格式-->
+            <pattern>
+                %22d{yyyy-MM-dd HH:mm:ss}--%highlight(%-5level)--[%15.15(%thread)]--%cyan(%-40.40(%logger{40}):%line) : %msg%n
+            </pattern>
+        </encoder>
+        <!-- 2.2. 日志输出的路径 -->
+        <file>D:/log/logfile.log</file>
+        <!-- 2.3. 日志追加。即 true 表示在以前的日志后追加日志，false 表示覆盖掉以前的日志,一般用true -->
+        <append>true</append>
+    </appender>
+
+
+    <!-- 3. 滚动文件附加器,在该文件中需要设置文件路径以及滚动策略,常用滚动策略有两种,在下面有解释 -->
+    <appender name="LOGIN_USER_FEATURE_ROLLFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder>
+            <pattern>
+                %22d{yyyy-MM-dd HH:mm:ss}--%highlight(%-5level)--[%15.15(%thread)]--%cyan(%-40.40(%logger{40}):%line) : %msg%n
+            </pattern>
+        </encoder>
+        <!-- 3.2. 日志输出的路径 -->
+        <file>D:/log2/logfile.log</file>
+        <!-- 3.3. 日志追加。即 true 表示在以前的日志后追加日志，false 表示覆盖掉以前的日志,一般用true -->
+        <append>true</append>
+
+
+        <!-- 3.4. 日志滚动策略。class: 滚动策略,两种,
+                1. 基于时间的策略 ch.qos.logback.core.rolling.TimeBasedRollingPolicy , 如每天或者每小时生成一个日志文件
+                2. 基于文件大小和时间的策略 ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy , 该策略既根据文件大小, 也根据时间
+         -->
+        <!-- 3.4.1. 示例1. 基于时间的策略 ch.qos.logback.core.rolling.TimeBasedRollingPolicy -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 3.4.1.1. 文件名生成模式,如按日期中的每天来生成日志文件,填入 %d{yyyy-MM-dd}.log ,如按秒 %d{yyyy-MM-dd HH-mm-ss} ,如按年创建目录,文件放在年份下 %d{yyyy/MM-dd}
+                其于<file>区别在于,当前也就是今天的日志记录会记录在<file>的D:/log2/logfile.log文件中, 今天过去,则会将logfile.log文件名修改为<fileNamePattern>设置的文件名
+            -->
+            <fileNamePattern>roll_%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!--3.4.1.2. 历史日志数量,如3则表示,保存最近3个的日志文件,3个以前的删除-->
+            <maxHistory>3</maxHistory>
+            <!--3.4.1.3. 该策略下所有的日志文件总大小,如5GB示,总大小不超过5GB,超过则把以前的删除-->
+            <totalSizeCap>5GB</totalSizeCap>
+        </rollingPolicy>
+
+        <!-- 3.4.2. 示例2. 基于文件大小和时间的策略,与基于时间策略相比,其多一个属性 <maxFileSize>,
+        并且 <fileNamePattern> 属性需要设置下标,如 %i ,表示当天文件超过大小,新建一个今天的日志文件1(从0开始)继续写入日志 -->
+        <!--
+             <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+                 <fileNamePattern>rollSizeTime_%d{yyyy-MM-dd}%i.log</fileNamePattern>
+                 <maxHistory>3</maxHistory>
+                 <totalSizeCap>5GB</totalSizeCap>
+                 3.4.2.4. 单个日志文件最大大小
+                 <maxFileSize>50MB</maxFileSize>
+             </rollingPolicy>
+        -->
+    </appender>
+
+
+    <!-- 4. 设置记录器，名字、日志级别自行设置
+        name  记录器的名称。记录器的唯一表示
+        level  日志级别
+        additivity  属性(可选):是否允许叠加打印日志，true 或 false
+    -->
+    <logger name="com.yanzi.config.myIntercepter.MyIntercepter" level="INFO" additivity="false">
+        <!-- 通过ref引入附加器名字name,表示该纪录器使用这个附加器,可以指定多个附加器,例如既使用控制台又使用文件,就会在控制台和文件均输出日志 -->
+        <appender-ref ref="STDOUT"></appender-ref>
+        <appender-ref ref="LOGIN_USER_FEATURE_FILE"></appender-ref>
+    </logger>
+
+    <logger name="com.yanzi.controller.FileController" level="error">
+        <!-- 通过 ref 引入附加器名字name, 表示该纪录器使用这个附加器,可以指定多个附加器,例如既使用控制台又使用文件,就会在控制台和文件均输出日志 -->
+        <appender-ref ref="LOGIN_USER_FEATURE_FILE"></appender-ref>
+    </logger>
+
+
+    <!-- 5. root 节点是必选节点，用来指定最基础的日志输出级别，只有一个level属性。默认为debug,当然你也可以不设置，在springBoot中默认为info
+                level: 用来设置打印级别，大小写无关：TRACE, DEBUG, INFO, WARN, ERROR, ALL 和 OFF，不能设置为INHERITED或者同义词NULL。
+                默认是DEBUG。可以包含零个或多个元素，标识这个appender将会使用root设置的日志级别 -->
+    <root level="info">
+        <appender-ref ref="STDOUT"></appender-ref>
+    </root>
+</configuration>
