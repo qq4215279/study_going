@@ -44,6 +44,8 @@ public class Demo1 {
         log.info("Hello world!");
 
         errorLog.error("Bad world!");
+
+        int res = 1 / 0;
     }
 
 }
