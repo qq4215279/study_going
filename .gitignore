@@ -31,3 +31,4 @@ hs_err_pid*
 *.iml
 /day0713-service-consumer/target/
 /itcast-rabbitmq/target/
+/logback_tesk/target/
