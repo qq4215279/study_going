@@ -1,5 +1,7 @@
 package com.mumu.lesson5.example2;
 
+import com.sun.tools.attach.VirtualMachine;
+
 /**
  * Test
  *
@@ -18,7 +20,7 @@ public class Test {
     public static void main(String[] args) throws Exception {
         // TODO java 程序进程号。jps找到jvm进程，替换到49823，每次执行Test里的main方法都能增强。
         String jdkProcessId = "49823";
-        // VirtualMachine virtualMachine = VirtualMachine.attach(jdkProcessId);
+        VirtualMachine virtualMachine = VirtualMachine.attach(jdkProcessId);
 
         // TODO 获取path
         String path = "";
