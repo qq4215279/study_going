@@ -135,8 +135,8 @@ public class AttachThread extends Thread {
      * @date 2023/11/14 18:04
      */
     public static void main(String[] args)  {
-        String processName = "GameStart";
-        // String processName = "MainPro";
+        // String processName = "GameStart";
+        String processName = "MainPro";
         String processId = "";
         List<VirtualMachineDescriptor> vmList = VirtualMachine.list();
         for (VirtualMachineDescriptor vmd : vmList) {
@@ -152,6 +152,8 @@ public class AttachThread extends Thread {
             String attachJar = "F:\\Code\\MumuSpace\\study_going\\agent_going\\test_agent\\src\\TestAgent.jar";
             String pathName = "F:\\Code\\MumuSpace\\study_going\\agent_going\\game_main\\src\\out\\com\\mumu\\HelloWorld.class";
             String className = "com.mumu.HelloWorld";
+            // String pathName = "F:\\Code\\WorkSpace\\yjxxl_server\\app\\trunk\\hf-parent\\hf-api\\target\\classes\\com\\cxx\\hf\\api\\service\\impl\\activity\\fisheryPlay\\DragonBlessActivity.class";
+            // String className = "com.cxx.hf.api.service.impl.activity.fisheryPlay.DragonBlessActivity";
             new AttachThread(attachJar, VirtualMachine.list(), processId, pathName + " " + className).start();
         }
     }
