@@ -52,12 +52,12 @@ public class TestAgent {
         String[] s = agentArgs.split(" ");
         String pathName = s[0];
         File file = new File(pathName);
-        FileInputStream fi = new FileInputStream(file);
-        byte[] fb = new byte[fi.available()];
-        fi.read(fb);
+        FileInputStream fis = new FileInputStream(file);
+        byte[] classBytesArr = new byte[fis.available()];
+        fis.read(classBytesArr);
 
         String className = s[1];
-        ClassDefinition cla = new ClassDefinition(Class.forName(className), fb);
+        ClassDefinition cla = new ClassDefinition(Class.forName(className), classBytesArr);
         inst.redefineClasses(new ClassDefinition[]{cla});
         System.out.println("agent success");
 
