@@ -14,8 +14,10 @@ import java.util.List;
 public class VirtualDemo {
     public static void main(String[] args) {
         List<VirtualMachineDescriptor> vmList = VirtualMachine.list();
-        for(VirtualMachineDescriptor vmd:vmList){
-            System.out.println(vmd.displayName());
+        for (VirtualMachineDescriptor vmd : vmList) {
+
+            System.out.println("进程id：" + vmd.id());
+            System.out.println("进程名称：" + vmd.displayName());
         }
     }
 }

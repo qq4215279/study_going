@@ -2,6 +2,7 @@ package com.mumu;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.instrument.ClassDefinition;
 import java.lang.instrument.Instrumentation;
@@ -15,27 +16,52 @@ import java.lang.instrument.UnmodifiableClassException;
  */
 public class TestAgent {
 
-    /**
-     * 1. 编译: javac -d out -encoding UTF-8  com\mumu\TestAgent.java
-     * 2. 打jar: jar cfe TestAgent.jar com.mumu.TestAgent -C out .
-     * 3. 运行: java -jar TestAgent.jar
-     * 3. 运行: java -javaagent:TestAgent.jar -jar TestAgent.jar
-     * java -jar F:\Code\MumuSpace\agent_going\test_agent\src\TestAgent.jar
-     *
-     * @param agentArgs agentArgs
-     * @param inst inst
-     * @return void
-     * @date 2023/11/14 18:03
-     */
-    public static void premain(String agentArgs, Instrumentation inst) throws IOException, UnmodifiableClassException, ClassNotFoundException {
-        File file;
-        file = new File("HelloWorld");
+    /*public static void premain(String agentArgs, Instrumentation inst) throws IOException, UnmodifiableClassException, ClassNotFoundException {
+        System.out.println("我是两个个参数的 Java Agent premain");
+
+        File file = new File("HelloWorld");
         FileInputStream fi = new FileInputStream(file);
         byte[] fb = new byte[fi.available()];
         fi.read(fb);
         ClassDefinition cla = new ClassDefinition(HelloWorld.class, fb);
         inst.redefineClasses(new ClassDefinition[]{cla});
         System.out.println("agent success");
+    }*/
 
+    public static void premain(String agentArgs) {
+        System.out.println("我是一个参数的 Java Agent premain");
+    }
+
+   /* public static void agentmain(String agentArgs) {
+        System.out.println("我是一个参数的 Java Agent agentmain");
+    }*/
+
+    /**
+     * 1. 编译: javac -d out -encoding UTF-8  com\mumu\TestAgent.java
+     *
+     * 2. 打jar: jar cvfm TestAgent.jar MANIFEST.MF -C out .
+     *
+     *
+     * @param agentArgs agentArgs
+     * @param inst inst
+     * @return void
+     * @date 2023/11/14 18:03
+     */
+    public static void agentmain(String agentArgs, Instrumentation inst) throws UnmodifiableClassException, IOException, ClassNotFoundException {
+        System.out.println("agentArgs: " + agentArgs);
+
+        String[] s = agentArgs.split(" ");
+        String pathName = s[0];
+        File file = new File(pathName);
+        FileInputStream fi = new FileInputStream(file);
+        byte[] fb = new byte[fi.available()];
+        fi.read(fb);
+
+        String className = s[1];
+        ClassDefinition cla = new ClassDefinition(Class.forName(className), fb);
+        inst.redefineClasses(new ClassDefinition[]{cla});
+        System.out.println("agent success");
+
+        System.out.println("我是两个参数的 Java Agent agentmain");
     }
 }

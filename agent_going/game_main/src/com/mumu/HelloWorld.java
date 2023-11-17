@@ -8,7 +8,6 @@ package com.mumu;
  */
 public class HelloWorld {
     public String print() {
-        // return "hello_world";
-        return "hello_agent";
+        return "hello_世界呵呵  ";
     }
 }

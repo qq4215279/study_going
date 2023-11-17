@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
+Agent-Class: com.mumu.TestAgent
+Premain-Class: com.mumu.TestAgent
 Can-Redefine-Classes: true
 Can-Retransform-Classes: true
-Main-Class: com.mumu.MainPro
-Premain-Class: com.munu.TestAgent
