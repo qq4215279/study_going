@@ -153,14 +153,11 @@ public class AttachMain extends Thread {
             String attachJar = "F:\\Code\\MumuSpace\\study_going\\agent_going\\test_agent\\src\\TestAgent.jar";
             // TODO
             // String pathName = "F:\\Code\\MumuSpace\\study_going\\agent_going\\game_main\\src\\out\\com\\mumu\\HelloWorld.class";
-            // String className = "com.mumu.HelloWorld";
-            // String pathName = "F:\\Code\\WorkSpace\\yjxxl_server\\app\\trunk\\hf-parent\\hf-api\\target\\classes\\com\\cxx\\hf\\api\\service\\impl\\activity\\fisheryPlay\\DragonBlessActivity.class";
+            String className = "com.mumu.HelloWorld";
+            String pathName = "F:\\Code\\WorkSpace\\yjxxl_server\\app\\trunk\\hf-parent\\hf-api\\target\\classes\\com\\cxx\\hf\\api\\service\\impl\\activity\\fisheryPlay\\DragonBlessActivity.class";
 
-            // String pathName = "C:\\Users\\D0381\\Desktop\\test\\test1\\DragonBlessActivity.class";
-            // String pathName = "C:\\Users\\D0381\\Desktop\\test\\test2\\DragonBlessActivity.class";
-            String pathName = "C:\\Users\\D0381\\Desktop\\test\\test3\\DragonBlessActivity.class";
-
-            String className = "com.cxx.hf.api.service.impl.activity.fisheryPlay.DragonBlessActivity";
+            // String pathName = "C:\\Users\\D0381\\Desktop\\test\\test3\\DragonBlessActivity.class";
+            // String className = "com.cxx.hf.api.service.impl.activity.fisheryPlay.DragonBlessActivity";
 
             new AttachMain(attachJar, VirtualMachine.list(), processId, pathName + " " + className).start();
         }
