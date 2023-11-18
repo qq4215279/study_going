@@ -1,4 +1,4 @@
-package com.mumu;
+package com.mumu.agent;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,13 +11,12 @@ import java.lang.instrument.Instrumentation;
 import java.lang.instrument.UnmodifiableClassException;
 
 /**
- * TestAgent
- * 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
+ * MyAgent
+ *
  * @author liuzhen
- * @version 1.0.0 2023/11/14 17:24
+ * @version 1.0.0 2023/11/18 14:53
  */
-public class TestAgent {
-
+public class MyAgent {
     /*public static void premain(String agentArgs, Instrumentation inst) throws IOException, UnmodifiableClassException, ClassNotFoundException {
         System.out.println("我是两个个参数的 Java Agent premain");
 

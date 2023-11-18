@@ -1,4 +1,4 @@
-package com.mumu;
+package com.mumu.attach;
 
 import com.sun.tools.attach.AttachNotSupportedException;
 import com.sun.tools.attach.VirtualMachine;
@@ -9,12 +9,12 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * AttachThread
+ * AttachMain
  *
  * @author liuzhen
- * @version 1.0.0 2023/11/14 16:59
+ * @version 1.0.0 2023/11/18 14:56
  */
-public class AttachThread extends Thread {
+public class AttachMain extends Thread {
     /**
      * 记录程序启动时的 VM 集合
      */
@@ -27,7 +27,7 @@ public class AttachThread extends Thread {
     private String processId = "666";
     private String agentArgs = "pathName className";
 
-    public AttachThread(String attachJar, List<VirtualMachineDescriptor> vms, String processId, String agentArgs) {
+    public AttachMain(String attachJar, List<VirtualMachineDescriptor> vms, String processId, String agentArgs) {
         listBefore = vms;
         jar = attachJar;
         this.processId = processId;
@@ -136,8 +136,8 @@ public class AttachThread extends Thread {
      */
     public static void main(String[] args)  {
         // TODO
-        String processName = "GameStart";
-        // String processName = "MainPro";
+        // String processName = "GameStart";
+        String processName = "MainPro";
         String processId = "";
         List<VirtualMachineDescriptor> vmList = VirtualMachine.list();
         for (VirtualMachineDescriptor vmd : vmList) {
@@ -162,7 +162,7 @@ public class AttachThread extends Thread {
 
             String className = "com.cxx.hf.api.service.impl.activity.fisheryPlay.DragonBlessActivity";
 
-            new AttachThread(attachJar, VirtualMachine.list(), processId, pathName + " " + className).start();
+            new AttachMain(attachJar, VirtualMachine.list(), processId, pathName + " " + className).start();
         }
     }
 }

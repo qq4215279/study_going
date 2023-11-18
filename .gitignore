@@ -32,3 +32,4 @@ hs_err_pid*
 /day0713-service-consumer/target/
 /itcast-rabbitmq/target/
 /logback_tesk/target/
+/my-agent/target/
