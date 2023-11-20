@@ -135,7 +135,8 @@ public class AttachMain extends Thread {
      * @date 2023/11/14 18:04
      */
     public static void main(String[] args)  {
-        // TODO
+        System.out.println("test 111111");
+       /* // TODO
         // String processName = "GameStart";
         String processName = "MainPro";
         String processId = "";
@@ -160,6 +161,6 @@ public class AttachMain extends Thread {
             // String className = "com.cxx.hf.api.service.impl.activity.fisheryPlay.DragonBlessActivity";
 
             new AttachMain(attachJar, VirtualMachine.list(), processId, pathName + " " + className).start();
-        }
+        }*/
     }
 }
