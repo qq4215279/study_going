@@ -125,7 +125,10 @@ public class AttachThread extends Thread {
     /**
      * 1. 编译: javac -d out -encoding UTF-8  com\mumu\AttachThread.java
      *
+     * 运行 java -cp out com.mumu.AttachThread
+     *
      * 2. 打jar: jar cfe AttachThread.jar com.mumu.AttachThread -C out .
+     *      jar cvfm AttachThread.jar MANIFEST.MF -C out .
      *
      * 3. 运行: java -jar AttachThread.jar
      * java -jar F:\Code\MumuSpace\agent_going\attach_main\src\AttachThread.jar

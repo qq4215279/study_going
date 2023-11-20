@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Class-Path: jdk.tools-1.8.0_73.jar
+Main-Class: com.mumu.AttachThread
