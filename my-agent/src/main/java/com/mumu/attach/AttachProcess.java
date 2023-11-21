@@ -19,9 +19,9 @@ public class AttachProcess extends Thread {
      * TODO 要加载的agent.jar
      */
     // idea运行
-    private final String jar = System.getProperty("user.dir") + "\\my-agent\\target\\my-agent.jar";
+    // private final String jar = System.getProperty("user.dir") + "\\my-agent\\target\\my-agent.jar";
     // java -jar 运行
-    // private final String jar = System.getProperty("user.dir") + "\\my-agent.jar";
+    private final String jar = System.getProperty("user.dir") + "\\my-agent.jar";
 
     /** 执行进程id */
     private final String processId;
@@ -89,11 +89,12 @@ public class AttachProcess extends Thread {
 
         System.out.println("className: " + argInfo.className);
         System.out.println("classesPath: " + argInfo.classesPath);
+        System.out.println("processNames: " + argInfo.attachProcessNames);
 
         List<VirtualMachineDescriptor> vmList = VirtualMachine.list();
         for (VirtualMachineDescriptor vmd : vmList) {
             String processId = vmd.id();
-            if (argInfo.processNames.contains(vmd.displayName())) {
+            if (argInfo.attachProcessNames.contains(vmd.displayName())) {
                 System.out.println("进程id：" + processId);
                 System.out.println("进程名称：" + vmd.displayName());
                 new AttachProcess(processId, argInfo.classesPath + " " + argInfo.className).start();
@@ -101,6 +102,5 @@ public class AttachProcess extends Thread {
         }
 
     }
-
 
 }

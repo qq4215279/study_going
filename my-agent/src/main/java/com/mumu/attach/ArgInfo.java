@@ -15,15 +15,15 @@ public class ArgInfo {
     private static final String CLASSNAME_KEY = "className";
     /** classesPath key */
     private static final String CLASSES_PATH_KEY = "classesPath";
-    /** processNames key */
-    private static final String PROCESS_NAMES_KEY = "processNames";
+    /** attachProcessNames key */
+    private static final String ATTACH_PROCESS_NAMES_KEY = "attachProcessNames";
 
     /** 全限定类名 */
     String className;
     /** 字节码路径 */
     String classesPath;
     /** 附载进程集合 */
-    Set<String> processNames;
+    Set<String> attachProcessNames;
 
 
     /**
@@ -56,8 +56,8 @@ public class ArgInfo {
             if (key.equalsIgnoreCase(CLASSES_PATH_KEY)) {
                 this.classesPath = value;
             }
-            if (key.equalsIgnoreCase(PROCESS_NAMES_KEY)) {
-                this.processNames = Arrays.stream(value.split(",")).collect(Collectors.toSet());
+            if (key.equalsIgnoreCase(ATTACH_PROCESS_NAMES_KEY)) {
+                this.attachProcessNames = Arrays.stream(value.split(",")).collect(Collectors.toSet());
             }
         }
     }
@@ -81,7 +81,7 @@ public class ArgInfo {
             String key = split[0];
             String value = split[1];
 
-            if (key.equalsIgnoreCase(PROCESS_NAMES_KEY)) {
+            if (key.equalsIgnoreCase(ATTACH_PROCESS_NAMES_KEY)) {
                 if (value.split(",").length <= 0) {
                     return false;
                 }
