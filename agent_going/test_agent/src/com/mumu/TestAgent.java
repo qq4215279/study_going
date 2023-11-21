@@ -1,8 +1,5 @@
 package com.mumu;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -63,18 +60,18 @@ public class TestAgent {
         Class<?> aClass = Class.forName(className);
         ClassDefinition cla = new ClassDefinition(aClass, classBytesArr);
 
-        Logger log = LoggerFactory.getLogger(aClass);
+        // Logger log = LoggerFactory.getLogger(aClass);
         try {
             inst.redefineClasses(new ClassDefinition[]{cla});
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("agent fail!");
-            log.error("agent fail 11111 #{}", e);
+            // log.error("agent fail 11111 #{}", e);
         }  finally {
             fis.close();
 
-            log.info("info 我是两个参数的 Java Agent agentmain");
-            log.error("error 我是两个参数的 Java Agent agentmain");
+            // log.info("info 我是两个参数的 Java Agent agentmain");
+            // log.error("error 我是两个参数的 Java Agent agentmain");
             System.out.println("我是两个参数的 Java Agent agentmain");
         }
     }

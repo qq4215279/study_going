@@ -137,7 +137,14 @@ public class AttachThread extends Thread {
      * @return void
      * @date 2023/11/14 18:04
      */
-    public static void main(String[] args)  {
+    public static void main(String[] args) {
+        String currentPath = System.getProperty("user.dir");
+        // F:\Code\MumuSpace\my-agent
+        System.out.println("currentPath: " + currentPath);
+        String userPath = System.getProperty("user.home");
+        // C:\Users\D0381
+        System.out.println("userPath: " + userPath);
+
         // TODO
         String processName = "GameStart";
         // String processName = "MainPro";
