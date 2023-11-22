@@ -34,3 +34,4 @@ hs_err_pid*
 /logback_tesk/target/
 /my-agent/target/
 /agent_going/game_main/src/out/
+/game-agent/target/
