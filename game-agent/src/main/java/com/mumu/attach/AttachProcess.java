@@ -66,7 +66,7 @@ public class AttachProcess extends Thread {
             vm.detach();
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("loadAgent exception：" + e);
+            System.out.println("loadAgent exception: " + e);
             Throwable cause = e.getCause();
             if (cause != null) {
                 cause.printStackTrace();
