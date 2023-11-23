@@ -18,16 +18,6 @@ import java.lang.instrument.Instrumentation;
 public class GameAgent {
 
     /**
-     * premain
-     * @param agentArgs 参数
-     * @return void
-     * @date 2023/11/20 18:02
-     */
-    public static void premain(String agentArgs) {
-        System.out.println("我是一个参数的 Java Agent premain");
-    }
-
-    /**
      * agentmain
      * @param agentArgs 参数
      * @param inst inst

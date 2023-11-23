@@ -16,11 +16,8 @@ import java.util.Objects;
  */
 public class AttachProcess extends Thread {
     /**
-     * TODO 要加载的agent.jar
+     * 要被加载的 game-agent.jar 路径
      */
-    // idea运行
-    // private final String jar = System.getProperty("user.dir") + "\\my-agent\\target\\game-agent.jar";
-    // java -jar 运行
     private final String jar = System.getProperty("user.dir") + "\\game-agent.jar";
 
     /** 执行进程id */
@@ -54,22 +51,22 @@ public class AttachProcess extends Thread {
             vm = VirtualMachine.attach(processId);
         } catch (AttachNotSupportedException e) {
             e.printStackTrace();
-            System.out.println("拒绝访问 Disconnected from the target VM");
+            System.out.println("no access disconnected from the target VM");
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         if (vm == null) {
-            throw new RuntimeException("vm 没有找到...");
+            throw new RuntimeException("vm not find...");
         }
 
-        System.out.println("开始loadAgent...");
+        System.out.println("start loadAgent...");
         try {
             Objects.requireNonNull(vm).loadAgent(jar, agentArgs);
             vm.detach();
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("loadAgent异常：" + e);
+            System.out.println("loadAgent exception：" + e);
             Throwable cause = e.getCause();
             if (cause != null) {
                 cause.printStackTrace();
@@ -95,8 +92,8 @@ public class AttachProcess extends Thread {
         for (VirtualMachineDescriptor vmd : vmList) {
             String processId = vmd.id();
             if (argInfo.attachProcessNames.contains(vmd.displayName())) {
-                System.out.println("进程id：" + processId);
-                System.out.println("进程名称：" + vmd.displayName());
+                System.out.println("gameProcessId: " + processId);
+                System.out.println("gameProcessName: " + vmd.displayName());
                 new AttachProcess(processId, argInfo.classesPath + " " + argInfo.classNames).start();
             }
         }
