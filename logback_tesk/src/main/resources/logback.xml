@@ -89,7 +89,11 @@
         注：因为 "com" 是 "com.mumu.logback.Demo1" 的父记录器，如果 additivity="false"，且没有别的子记录器了，且没有 <appender-ref ref="STDOUT"/> ；则不会打印日志！
         如果 additivity="true"，且 root记录器 ref="STDOUT"，这种方式也可以打印！
      -->
-    <logger name="com" level="info" additivity="true">
+    <logger name="com" level="info" additivity="false">
+        <appender-ref ref="STDOUT"/>
+    </logger>
+
+    <logger name="com.mumu" level="info" additivity="true">
         <appender-ref ref="STDOUT"/>
     </logger>
 

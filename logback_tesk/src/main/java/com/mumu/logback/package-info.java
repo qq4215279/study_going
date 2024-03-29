@@ -17,7 +17,7 @@ package com.mumu.logback;
  * 目前比较常用的Java日志框架：logback、log4j、lgg4j2、JUL等等。
  * Logback是在log4j的基础上重新开发的一套日志框架，是完全实现SLF4J接口API（也叫日志门面）。
  * Logback的架构非常通用，可以应用于不同的环境。目前logback分为三个模块，logback—core、logback-classic和logback-access。
- * logback-core 模块为其他两个模块奠定了基础。logback-classic模块 原生实现了SLF4JAPI，因 此您可以轻松地在logback和其他日志记录框架（例如 log4j 1．x或 java．util．logging（JUL））之 间来回切换。
+ * logback-core 模块为其他两个模块奠定了基础。logback-classic模块 原生实现了SLF4JAPI，因此您可以轻松地在logback和其他日志记录框架（例如 log4j 1．x或 java．util．logging（JUL））之 间来回切换。
  * logback-access 模块与Tomcat和Jetty等Servlet 容器集成，以提供HTTP访问日志功能。请 注意，您可以轻松地在logback—core之上构建自己的模块。
  *
  * 记录器Logger
