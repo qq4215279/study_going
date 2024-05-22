@@ -52,10 +52,10 @@
       <artifactId>logback-ext-spring</artifactId>
     </dependency>
 
-    <dependency>
+   <!-- <dependency>
       <groupId>jdk.tools</groupId>
       <artifactId>jdk.tools</artifactId>
-    </dependency>
+    </dependency>-->
 
     <!--google -->
     <dependency>

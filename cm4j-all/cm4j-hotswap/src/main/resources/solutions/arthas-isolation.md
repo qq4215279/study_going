@@ -47,7 +47,7 @@ public class JvmCommand {
 
 基于上一篇我们讲的ClassLoader的原理，那我们脑中应该有这个一张Arthas的ClassLoader图：
 
-![Arthas原理：如何做到与应用代码隔离？](arthas-isolation1.png)
+![Arthas原理：如何做到与应用代码隔离？](assets/arthas-isolation1.png)
 
 想要Arthas代码与应用的代码可同时获取到JMX等系统级的API，同时两者之间的代码是完全隔离的，
 ArthasClassLoader与AppClassLoader就必须共用同一个parent：ExtClassLoader，且两者要互相分属不同的ClassLoader。
@@ -108,7 +108,7 @@ public class Test{
 
 增强后，实际我们的应用代码就被动态改变为下面的代码：
 
-![Arthas原理：如何做到与应用代码隔离？](arthas-isolation2.png)
+![Arthas原理：如何做到与应用代码隔离？](assets/arthas-isolation2.png)
 
 这样，原应用代码在执行printTest方法时，就通过SpyAPI调用到Arthas的监控代码，从而实现Arthas的监控的实现。
 
