@@ -41,3 +41,4 @@ hs_err_pid*
 /day0714-service-zuul/target/classes/application.yaml
 /day0729-elasticsearch/target/classes/application.yml
 /refresh_token/target/classes/cache.properties
+/cm4j-all/cm4j-hotswap/target/

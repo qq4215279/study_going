@@ -61,7 +61,7 @@ class想要加载进入jvm，唯一途径就是通过ClassLoader，因此这里�
 
 具体类图如下：
 
-![hotswapcompile2.png](//oss.yeas.fun/halo-yeas/hotswap-compile-2_1636702423442.png)
+![hotswapcompile2.png](./assets/hotswap-compile-2_1636702423442.png)
 
 ### 如何不停服新增功能？
 
