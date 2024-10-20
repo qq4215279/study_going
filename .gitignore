@@ -35,3 +35,10 @@ hs_err_pid*
 /my-agent/target/
 /agent_going/game_main/src/out/
 /game-agent/target/
+/refresh_token/target/classes/application.properties
+/day0713-service-eureka/target/classes/application.yaml
+/day0713-service-provider/target/classes/application.yaml
+/day0714-service-zuul/target/classes/application.yaml
+/day0729-elasticsearch/target/classes/application.yml
+/refresh_token/target/classes/cache.properties
+/cm4j-all/cm4j-hotswap/target/

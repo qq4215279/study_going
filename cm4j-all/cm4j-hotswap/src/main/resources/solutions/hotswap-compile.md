@@ -20,7 +20,7 @@
 
 我们这里可以参考代理的思路，采用子类的方式来进行代码实现的逻辑替换。
 
-![hotswap-compile-1.png](hotswap-compile-1.png)
+![hotswap-compile-1.png](assets/hotswap-compile-1.png)
 
 如上图，Parent类中有一个方法method1()，如果我们想改变里面逻辑，可以写一个Parent的子类SubClass，然后覆写方法method1()，
 这样外部调用还是Parent，但实际调用的对象替换为SubClass，即可实现代码的替换。
@@ -61,7 +61,7 @@ class想要加载进入jvm，唯一途径就是通过ClassLoader，因此这里�
 
 具体类图如下：
 
-![hotswapcompile2.png](//oss.yeas.fun/halo-yeas/hotswap-compile-2_1636702423442.png)
+![hotswapcompile2.png](./assets/hotswap-compile-2_1636702423442.png)
 
 ### 如何不停服新增功能？
 

@@ -1,19 +1,18 @@
 package com.cm4j.eval;
 
+import com.alibaba.fastjson.JSON;
+import com.cm4j.eval.compiler.DynamicCompiler;
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.alibaba.fastjson.JSON;
-import com.cm4j.eval.compiler.DynamicCompiler;
-import com.google.common.base.Charsets;
-import com.google.common.io.Files;
 
 /**
  * Java动态代码执行<br />
@@ -24,6 +23,24 @@ import com.google.common.io.Files;
 public class JavaEvalUtil {
 
     private static final Logger LOG = LoggerFactory.getLogger(JavaEvalUtil.class);
+
+    /**
+     * 对外API，执行文件得结果
+     *
+     * @param content
+     * @return
+     * @throws Exception
+     */
+    public static Object eval(String content) throws Exception {
+        // 类dump
+        dump(content);
+
+        // 编译生成内存二进制，并加载为class
+        Class<?> compile = compile(content);
+
+        // 反射调用class
+        return call(compile);
+    }
 
     private static void dump(String javaSource) throws IOException {
         String className = getClassName(javaSource);
@@ -83,23 +100,5 @@ public class JavaEvalUtil {
         }
 
         throw new RuntimeException("NO method is [public static], cannot eval");
-    }
-
-    /**
-     * 对外API，执行文件得结果
-     *
-     * @param content
-     * @return
-     * @throws Exception
-     */
-    public static Object eval(String content) throws Exception {
-        // 类dump
-        dump(content);
-
-        // 编译生成内存二进制，并加载为class
-        Class<?> compile = compile(content);
-
-        // 反射调用class
-        return call(compile);
     }
 }
