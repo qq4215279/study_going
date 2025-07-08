@@ -1,5 +1,19 @@
 package com.cm4j.hotswap.agent;
 
+import com.cm4j.agent.JavaDynAgent;
+import com.cm4j.agent.JavaDynAgentLocation;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+import com.sun.tools.attach.AgentInitializationException;
+import com.sun.tools.attach.AgentLoadException;
+import com.sun.tools.attach.AttachNotSupportedException;
+import com.sun.tools.attach.VirtualMachine;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,21 +28,6 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.cm4j.agent.JavaDynAgent;
-import com.cm4j.agent.JavaDynAgentLocation;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-import com.sun.tools.attach.AgentInitializationException;
-import com.sun.tools.attach.AgentLoadException;
-import com.sun.tools.attach.AttachNotSupportedException;
-import com.sun.tools.attach.VirtualMachine;
 
 /**
  * API：Agent方式热更新
@@ -114,6 +113,7 @@ public class JavaAgent {
                         k -> Sets.newLinkedHashSet());
                 classSet.add(c);
             }
+
             if (!redefineMap.isEmpty()) {
                 for (Entry<String, LinkedHashSet<Class<?>>> entry : redefineMap.entrySet()) {
                     String classLocation = entry.getKey();
