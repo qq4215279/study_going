@@ -42,3 +42,7 @@ hs_err_pid*
 /day0729-elasticsearch/target/classes/application.yml
 /refresh_token/target/classes/cache.properties
 /cm4j-all/cm4j-hotswap/target/
+/gradle_demo/gradle/
+/case_test/target/
+/gradle_demo/.gradle/
+/gradle_demo/build/
